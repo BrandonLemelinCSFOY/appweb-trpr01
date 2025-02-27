@@ -84,7 +84,12 @@ const searchQuery = ref<string>("")
 const selectedGame = ref<Game | null>(null)
 const quantityError = ref<string>("")
 const nameError = ref<string>("")
+const priceError = ref<string>("")
 const descriptionError = ref<string>("")
+const updatedQuantityError = ref<string>("")
+const updatedNameError = ref<string>("")
+const updatedPriceError = ref<string>("")
+const updatedDescriptionError = ref<string>("")
 const outOfStockErrors = ref<string[]>([])
 const outOfStockGames = new Set<number>()
 
@@ -102,6 +107,13 @@ const addGame = () => {
     hasError = true
   } else {
     nameError.value = ""
+  }
+
+  if (newPrice.value < 0) {
+    priceError.value = "Price must be greater than or equal to 0"
+    hasError = true
+  } else {
+    priceError.value = ""
   }
 
   if (newQuantity.value < 0) {
@@ -181,6 +193,39 @@ const updateGame = () => {
   if (gameIdToUpdate.value !== null) {
     const game = games.value.find((game) => game.id === gameIdToUpdate.value)
     if (game) {
+      let hasError = false
+      if (updatedName.value.length < 2) {
+        updatedNameError.value = "Name must be at least 2 characters long"
+        hasError = true
+      } else {
+        updatedNameError.value = ""
+      }
+
+      if (updatedDescription.value === "") {
+        updatedDescriptionError.value = "Description cannot be empty"
+        hasError = true
+      } else {
+        updatedDescriptionError.value = ""
+      }
+
+      if (updatedPrice.value < 0) {
+        updatedPriceError.value = "Price must be greater than or equal to 0"
+        hasError = true
+      } else {
+        updatedPriceError.value = ""
+      }
+
+      if (updatedQuantity.value < 0) {
+        updatedQuantityError.value = "Quantity must be greater than 0"
+        hasError = true
+      } else {
+        updatedQuantityError.value = ""
+      }
+
+      if (hasError) {
+        return
+      }
+
       game.name = updatedName.value
       game.description = updatedDescription.value
       game.platform = updatedPlatform.value
@@ -338,6 +383,9 @@ const downloadCSV = () => {
         <div v-if="nameError" class="alert alert-danger mt-2">
           {{ nameError }}
         </div>
+        <div v-if="priceError" class="alert alert-danger mt-2">
+          {{ priceError }}
+        </div>
         <div v-if="descriptionError" class="alert alert-danger mt-2">
           {{ descriptionError }}
         </div>
@@ -380,6 +428,18 @@ const downloadCSV = () => {
         >
           ✏️ Update Game
         </button>
+        <div v-if="updatedNameError" class="alert alert-danger mt-2">
+          {{ updatedNameError }}
+        </div>
+        <div v-if="updatedPriceError" class="alert alert-danger mt-2">
+          {{ updatedPriceError }}
+        </div>
+        <div v-if="updatedDescriptionError" class="alert alert-danger mt-2">
+          {{ updatedDescriptionError }}
+        </div>
+        <div v-if="updatedQuantityError" class="alert alert-danger mt-2">
+          {{ updatedQuantityError }}
+        </div>
       </div>
     </div>
     <div>
