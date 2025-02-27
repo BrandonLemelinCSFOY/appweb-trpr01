@@ -232,6 +232,12 @@ const updateGame = () => {
       game.price = updatedPrice.value
       game.quantity = updatedQuantity.value
     }
+    if (updatedQuantity.value == 0) {
+      outOfStockErrors.value.push(
+        `The game "${updatedName.value}" is out of stock`
+      )
+      outOfStockGames.add(gameIdToUpdate.value)
+    }
     updatedName.value = ""
     updatedDescription.value = ""
     updatedPlatform.value = ""
