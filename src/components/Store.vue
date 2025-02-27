@@ -350,6 +350,11 @@ const downloadCSV = () => {
 <template>
   <div class="container mt-5 p-3">
     <h2 class="mb-4">🎮 Brandon's game store</h2>
+    <div v-if="outOfStockErrors.length" class="alert alert-danger mt-4">
+      <ul class="no-bullets">
+        <li v-for="error in outOfStockErrors" :key="error">{{ error }}</li>
+      </ul>
+    </div>
     <div class="row">
       <div class="card col-6 mb-3">
         <div class="card-header bg-success">Add a game</div>
@@ -482,11 +487,6 @@ const downloadCSV = () => {
       <p><strong>Price:</strong> {{ selectedGame.price }} $</p>
       <p><strong>Quantity:</strong> {{ selectedGame.quantity }}</p>
     </div>
-    <div v-if="outOfStockErrors.length" class="alert alert-danger mt-4">
-      <ul>
-        <li v-for="error in outOfStockErrors" :key="error">{{ error }}</li>
-      </ul>
-    </div>
     <button @click="downloadCSV" class="btn btn-primary mt-4">
       Export to CSV
     </button>
@@ -498,5 +498,10 @@ const downloadCSV = () => {
   padding: 1rem;
   margin: 1rem auto;
   max-width: 400px;
+}
+
+.no-bullets {
+  list-style-type: none;
+  padding-left: 0;
 }
 </style>
