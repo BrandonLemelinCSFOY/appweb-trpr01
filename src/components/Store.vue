@@ -494,7 +494,7 @@ const downloadCSV = () => {
       </div>
     </div>
     <div v-if="selectedGame" class="card mt-4 selected-game-card">
-      <h3>Jeu sélectioné</h3>
+      <h3>Jeu sélectiomné</h3>
       <p><strong>Nom:</strong> {{ selectedGame.name }}</p>
       <p><strong>Description:</strong> {{ selectedGame.description }}</p>
       <p><strong>Plateforme:</strong> {{ selectedGame.platform }}</p>
