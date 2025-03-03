@@ -88,7 +88,7 @@ const quantityBadgeClass = computed(() => {
           >{{ game.price }} $</span
         >
         <span :class="['badge', quantityBadgeClass, 'rounded-pill', 'me-3']"
-          >{{ game.quantity }} in stock</span
+          >{{ game.quantity }} en stock</span
         >
         <span :class="['badge', badgeClass, 'rounded-pill']">{{
           game.platform
@@ -96,16 +96,16 @@ const quantityBadgeClass = computed(() => {
       </div>
       <div>
         <button @click="handleUpdate" class="btn btn-warning btn-sm me-2">
-          ✏️ Update
+          ✏️ Modifier
         </button>
         <button @click="handleRemove" class="btn btn-danger btn-sm">
-          🗑️ Remove
+          🗑️ Retirer
         </button>
         <button @click="handleDuplicate" class="btn btn-info btn-sm">
-          🔁 Duplicate
+          🔁 Dupliquer
         </button>
         <button @click="handleSell" class="btn btn-secondary btn-sm">
-          💰 Sell
+          💰 Vendre
         </button>
       </div>
     </div>

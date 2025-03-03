@@ -96,28 +96,28 @@ const outOfStockGames = new Set<number>()
 const addGame = () => {
   let hasError = false
   if (newGame.value.length < 2) {
-    nameError.value = "Name must be at least 2 characters long"
+    nameError.value = "Le nom doit faire au moins 2 caractères."
     hasError = true
   } else {
     nameError.value = ""
   }
 
   if (newDescription.value === "") {
-    descriptionError.value = "Description cannot be empty"
+    descriptionError.value = "La description ne peut pas être vide."
     hasError = true
   } else {
-    nameError.value = ""
+    descriptionError.value = ""
   }
 
   if (newPrice.value < 0) {
-    priceError.value = "Price must be greater than or equal to 0"
+    priceError.value = "Le prix doit être supérieur ou égal à 0."
     hasError = true
   } else {
     priceError.value = ""
   }
 
   if (newQuantity.value < 0) {
-    quantityError.value = "Quantity must be greater than 0"
+    quantityError.value = "La quantité doit être supérieure à 0."
     hasError = true
   } else {
     quantityError.value = ""
@@ -139,7 +139,9 @@ const addGame = () => {
   games.value.push(newGameObj)
 
   if (newQuantity.value == 0) {
-    outOfStockErrors.value.push(`The game "${newGame.value}" is out of stock`)
+    outOfStockErrors.value.push(
+      `Le jeu "${newGame.value}" est en rupture de stock`
+    )
     outOfStockGames.add(newGameObj.id)
   }
 
@@ -195,28 +197,28 @@ const updateGame = () => {
     if (game) {
       let hasError = false
       if (updatedName.value.length < 2) {
-        updatedNameError.value = "Name must be at least 2 characters long"
+        updatedNameError.value = "Le nom doit faire au moins 2 caractères."
         hasError = true
       } else {
         updatedNameError.value = ""
       }
 
       if (updatedDescription.value === "") {
-        updatedDescriptionError.value = "Description cannot be empty"
+        updatedDescriptionError.value = "La description ne peut pas être vide."
         hasError = true
       } else {
         updatedDescriptionError.value = ""
       }
 
       if (updatedPrice.value < 0) {
-        updatedPriceError.value = "Price must be greater than or equal to 0"
+        updatedPriceError.value = "Le prix doit être supérieur ou égal à 0."
         hasError = true
       } else {
         updatedPriceError.value = ""
       }
 
       if (updatedQuantity.value < 0) {
-        updatedQuantityError.value = "Quantity must be greater than 0"
+        updatedQuantityError.value = "La quantité doit être supérieure à 0."
         hasError = true
       } else {
         updatedQuantityError.value = ""
@@ -234,7 +236,7 @@ const updateGame = () => {
     }
     if (updatedQuantity.value == 0) {
       outOfStockErrors.value.push(
-        `The game "${updatedName.value}" is out of stock`
+        `Le jeu "${updatedName.value}" est en rupture de stock`
       )
       outOfStockGames.add(gameIdToUpdate.value)
     }
@@ -261,10 +263,12 @@ watch(
       if (game.quantity === 0 && !outOfStockGames.has(game.id)) {
         if (
           !outOfStockErrors.value.includes(
-            `The game "${game.name}" is out of stock`
+            `Le jeu "${game.name}" est en rupture de stock`
           )
         ) {
-          outOfStockErrors.value.push(`The game "${game.name}" is out of stock`)
+          outOfStockErrors.value.push(
+            `Le jeu "${game.name}" est en rupture de stock`
+          )
         }
         outOfStockGames.add(game.id)
       } else if (game.quantity > 0 && outOfStockGames.has(game.id)) {
@@ -349,7 +353,7 @@ const downloadCSV = () => {
 
 <template>
   <div class="container mt-5 p-3">
-    <h2 class="mb-4">🎮 Brandon's game store</h2>
+    <h2 class="mb-4">🎮 Magasin de jeux de Brandon</h2>
     <div v-if="outOfStockErrors.length" class="alert alert-danger mt-4">
       <ul class="no-bullets">
         <li v-for="error in outOfStockErrors" :key="error">{{ error }}</li>
@@ -357,39 +361,44 @@ const downloadCSV = () => {
     </div>
     <div class="row">
       <div class="card col-6 mb-3">
-        <div class="card-header bg-success">Add a game</div>
+        <div class="card-header bg-success">Ajouter un jeu</div>
+        Nom
         <input
           v-model="newGame"
           class="form-control mt-2"
-          placeholder="Enter a new game"
+          placeholder="Entrez le nom du jeu"
         />
+        Description
         <input
           v-model="newDescription"
           class="form-control mt-2"
-          placeholder="Enter the game's description"
+          placeholder="Entrez la description du jeu"
         />
+        Plateforme
         <select v-model="newPlatform" class="form-select mt-2">
           <option>PlayStation</option>
           <option>Xbox</option>
           <option>Switch</option>
           <option>PC</option>
         </select>
+        Prix
         <input
           v-model="newPrice"
           class="form-control mt-2"
-          placeholder="Enter the price"
+          placeholder="Entrer le prix"
         />
+        Quantité
         <input
           v-model="newQuantity"
           class="form-control mt-2"
-          placeholder="Enter the quantity"
+          placeholder="Entrer la quantité"
         />
         <button
           @click="addGame"
           class="btn btn-success mt-2"
           :disabled="!newGame"
         >
-          ➕ Add Game
+          ➕ Ajouter le jeu
         </button>
         <div v-if="nameError" class="alert alert-danger mt-2">
           {{ nameError }}
@@ -405,39 +414,44 @@ const downloadCSV = () => {
         </div>
       </div>
       <div class="card col-6 mb-3">
-        <div class="card-header bg-warning">Update a game</div>
+        <div class="card-header bg-warning">Modifier un jeu</div>
+        Nom
         <input
           v-model="updatedName"
           class="form-control mt-2"
-          placeholder="Update the game's name"
+          placeholder="Modifier le nom du jeu"
         />
+        Description
         <input
           v-model="updatedDescription"
           class="form-control mt-2"
-          placeholder="Update the game's description"
+          placeholder="Modifier la description du jeu"
         />
+        Plateforme
         <select v-model="updatedPlatform" class="form-select mt-2">
           <option>PlayStation</option>
           <option>Xbox</option>
           <option>Switch</option>
           <option>PC</option>
         </select>
+        Prix
         <input
           v-model="updatedPrice"
           class="form-control mt-2"
-          placeholder="Enter the price"
+          placeholder="Entrez le prix"
         />
+        Quantité
         <input
           v-model="updatedQuantity"
           class="form-control mt-2"
-          placeholder="Enter the quantity"
+          placeholder="Entrez la quantité"
         />
         <button
           @click="updateGame"
           class="btn btn-warning mt-2"
           :disabled="!updatedName"
         >
-          ✏️ Update Game
+          ✏️ Modifier le jeu
         </button>
         <div v-if="updatedNameError" class="alert alert-danger mt-2">
           {{ updatedNameError }}
@@ -454,11 +468,11 @@ const downloadCSV = () => {
       </div>
     </div>
     <div>
-      <h2>Inventory</h2>
+      <h2>Inventaire</h2>
       <input
         v-model="searchQuery"
         class="form-control mb-3"
-        placeholder="Search for a game"
+        placeholder="Rechercher un jeu"
       />
       <div v-if="filteredGames.length === 0" class="alert alert-info">
         No games found
@@ -480,15 +494,15 @@ const downloadCSV = () => {
       </div>
     </div>
     <div v-if="selectedGame" class="card mt-4 selected-game-card">
-      <h3>Selected Game</h3>
-      <p><strong>Name:</strong> {{ selectedGame.name }}</p>
+      <h3>Jeu sélectioné</h3>
+      <p><strong>Nom:</strong> {{ selectedGame.name }}</p>
       <p><strong>Description:</strong> {{ selectedGame.description }}</p>
-      <p><strong>Platform:</strong> {{ selectedGame.platform }}</p>
-      <p><strong>Price:</strong> {{ selectedGame.price }} $</p>
-      <p><strong>Quantity:</strong> {{ selectedGame.quantity }}</p>
+      <p><strong>Plateforme:</strong> {{ selectedGame.platform }}</p>
+      <p><strong>Prix:</strong> {{ selectedGame.price }} $</p>
+      <p><strong>Quantité:</strong> {{ selectedGame.quantity }}</p>
     </div>
     <button @click="downloadCSV" class="btn btn-primary mt-4">
-      Export to CSV
+      Exporter en CSV
     </button>
   </div>
 </template>
